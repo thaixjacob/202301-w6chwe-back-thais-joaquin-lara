@@ -14,15 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agonsant/demo-express-configs.git"
+    "url": "git+https://github.com/thaixjacob/202301-w6we-thais-joaquin-lara.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agonsant/demo-express-configs/issues"
+    "url": "https://github.com/thaixjacob/202301-w6we-thais-joaquin-lara/issues"
   },
-  "homepage": "https://github.com/agonsant/demo-express-configs#readme",
+  "homepage": "https://github.com/thaixjacob/202301-w6we-thais-joaquin-lara#readme",
   "devDependencies": {
     "@types/bunyan": "^1.8.8",
     "@types/debug": "^4.1.7",
