@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { RobotModel } from './robots-schema';
 import {
   createRobotController,
+  deleteRobotByIdController,
   getRobotByIdController,
   getRobotsController,
 } from './robots-controllers';
@@ -91,6 +92,58 @@ describe('Given a getRobottByIdController function', () => {
       .fn()
       .mockRejectedValue(new Error('somethign was wrong'));
     await createRobotController(
+      request as Request,
+      response as Response,
+      jest.fn(),
+    );
+    expect(response.status).toHaveBeenCalledWith(500);
+  });
+});
+
+describe('Given a delete method of the controller', () => {
+  const request = {
+    params: { id: 'robot-id' },
+  } as Partial<Request>;
+  const response = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  } as Partial<Response>;
+
+  const robot = {
+    id: 'robot-id',
+    name: 'robot test',
+    img: 'fake-url.com',
+    speed: 8,
+    resistence: 10,
+    creationDate: '1995-12-08',
+  };
+
+  test('When the user calls the function with a robot id, then that specific robot should be deleted', async () => {
+    RobotModel.findById = jest.fn().mockResolvedValue(request.params);
+    RobotModel.deleteOne = jest.fn().mockResolvedValue(robot.id);
+    await deleteRobotByIdController(
+      request as Request,
+      response as Response,
+      jest.fn(),
+    );
+    expect(response.json).toHaveBeenCalledWith(robot.id);
+  });
+
+  test('When the user calls the function with a non-existing robot id, then it should return a 404 error (not found)', async () => {
+    RobotModel.findById = jest.fn().mockResolvedValue(null);
+    await deleteRobotByIdController(
+      request as Request,
+      response as Response,
+      jest.fn(),
+    );
+    expect(response.status).toHaveBeenCalledWith(404);
+  });
+
+  test('When there is an unexpected error in the function, then it should return a 500 status error', async () => {
+    RobotModel.findById = jest
+      .fn()
+      .mockRejectedValue(new Error('Something went wrong'));
+    await deleteRobotByIdController(
       request as Request,
       response as Response,
       jest.fn(),
