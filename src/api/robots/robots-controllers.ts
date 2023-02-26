@@ -13,7 +13,7 @@ export const getRobotsController: RequestHandler = async (_req, res) => {
 
 export const createRobotController: RequestHandler = async (req, res) => {
   const id = crypto.randomUUID();
-  const robot = {
+  const robot: typeof RobotModel = {
     id,
     ...req.body,
   };
@@ -42,13 +42,12 @@ export const getRobotByIdController: RequestHandler = async (req, res) => {
 export const deleteRobotByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;
   try {
-    const robot = await RobotModel.findById(id);
-    if (robot === null) {
-      res.status(404);
+    const dbRes = await RobotModel.deleteOne({ id });
+    if (dbRes.deletedCount === 0) {
+      res.status(404).json('Robot not found');
+    } else {
+      res.json(id);
     }
-
-    RobotModel.deleteOne({ id });
-    res.status(204).json(robot?.id);
   } catch (error) {
     res.status(500).json(error);
   }

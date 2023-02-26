@@ -5,12 +5,12 @@ import cors from 'cors';
 const app = express();
 
 app.get('/', (_req, res) => {
-  res.json({ hello: 'World' });
+  res.json('Server ON');
 });
 
 app.use(cors());
-
 app.use(express.json());
 app.use('/api/v1', apiRouter);
+app.disable('x-powered-by');
 
 export default app;
