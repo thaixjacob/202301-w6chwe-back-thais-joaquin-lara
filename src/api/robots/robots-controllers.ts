@@ -47,7 +47,7 @@ export const deleteRobotByIdController: RequestHandler = async (req, res) => {
       res.status(404);
     }
 
-    RobotModel.deleteOne(robot?.id);
+    RobotModel.deleteOne({ id });
     res.status(204).json(robot?.id);
   } catch (error) {
     res.status(500).json(error);
