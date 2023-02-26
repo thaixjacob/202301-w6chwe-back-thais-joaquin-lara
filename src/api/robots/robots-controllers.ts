@@ -44,7 +44,7 @@ export const deleteRobotByIdController: RequestHandler = async (req, res) => {
   try {
     const dbRes = await RobotModel.deleteOne({ id });
     if (dbRes.deletedCount === 0) {
-      res.sendStatus(404);
+      res.status(404).json('Robot not found');
     } else {
       res.json(id);
     }
