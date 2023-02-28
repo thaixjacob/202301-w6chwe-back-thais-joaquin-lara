@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import logger from '../../logger';
+import logger from '../../logger.js';
 import crypto from 'node:crypto';
-import { User, UserModel } from '../user/user-schema';
+import { User, UserModel } from '../user/user-schema.js';
 import { encryptPassword, generateJWTToken } from './auth-utils.js';
 
 const EMAIL_REGEX_VALIDATION = /^[a-z0-9_.+-]+@[a-z0-9-]+\.[a-z0-9-.]+$/i;
@@ -21,12 +21,20 @@ export const registerUserController: RequestHandler<
   AuthRequest
 > = async (req, res) => {
   const { email, password } = req.body;
-
+  logger.debug(`User ${email} is trying to register`);
   if (!EMAIL_REGEX_VALIDATION.test(email)) {
+    logger.debug(
+      'El email no cumple la validación de la regex',
+      EMAIL_REGEX_VALIDATION,
+    );
     return res.status(400).json({ msg: 'Email must be a valid email.' });
   }
 
   if (!PASSWORD_REGEX_VALIDATION.test(password)) {
+    logger.debug(
+      'La contraseña no cumple la validación de la regex',
+      EMAIL_REGEX_VALIDATION,
+    );
     return res.status(400).json({
       msg: 'Your password must contain one capital letter, one number and one special character number.',
     });
